@@ -1,6 +1,23 @@
 <?php
 declare(strict_types=1);
 
+/**
+ * ----------------------------------------------------------
+ * init_db.php – Initialize your MySQL database (schema + data)
+ * ----------------------------------------------------------
+ *
+ * This script lets you initialize your database either interactively
+ * or automatically using CLI flags.
+ *
+ * USAGE:
+ *   php init_db.php                 → interactive mode (asks before importing)
+ *   php init_db.php --auto-schema  → import schema only, no confirmation
+ *   php init_db.php --auto-seed    → import sample data only, no confirmation
+ *   php init_db.php --all          → import both schema and seed automatically
+ *
+ * Make sure your .env file is correctly set before running.
+ */
+
 require_once __DIR__ . '/config/env_loader.php';
 require_once __DIR__ . '/config/db_mysql.php';
 
