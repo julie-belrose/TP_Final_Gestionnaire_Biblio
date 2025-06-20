@@ -18,12 +18,42 @@ declare(strict_types=1);
  * Make sure your .env file is correctly set before running.
  */
 
-require_once __DIR__ . '/config/env_loader.php';
-require_once __DIR__ . '/config/db_mysql.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-loadEnv(__DIR__ . '/.env');
+use Dotenv\Dotenv;
 
-$pdo = getDbConnection();
+// Charge les variables d'environnement
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+
+// Connexion temporaire SANS base sélectionnée
+$dsn = sprintf('mysql:host=%s;charset=utf8mb4', $_ENV['DB_MYSQL_HOST'] ?? 'localhost');
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES => false,
+];
+$pdo = new PDO(
+    $dsn,
+    $_ENV['DB_MYSQL_USER'] ?? 'root',
+    $_ENV['DB_MYSQL_PASSWORD'] ?? '',
+    $options
+);
+
+// Création de la base si elle n'existe pas
+$dbName = $_ENV['DB_MYSQL_NAME'] ?? 'personal_library';
+$pdo->exec("CREATE DATABASE IF NOT EXISTS `$dbName` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+
+// Reconnexion avec la base
+$pdo = new PDO(
+    sprintf('%s;dbname=%s', $dsn, $dbName),
+    $_ENV['DB_MYSQL_USER'] ?? 'root',
+    $_ENV['DB_MYSQL_PASSWORD'] ?? '',
+    $options
+);
+
+
+//$pdo = getDbConnection();
 
 /**
  * Prompt the user interactively.
@@ -77,11 +107,11 @@ try {
     $runSeed = in_array('--auto-seed', $flags) || in_array('--all', $flags);
 
     if ($runSchema || (!$runSeed && askConfirmation('→ Do you want to create the schema (tables)?'))) {
-        importSqlFile($pdo, __DIR__ . '/database/schema.sql');
+        importSqlFile($pdo, __DIR__ . '/../src/database/mysql/schema.sql');
     }
 
     if ($runSeed || (!$runSchema && !$runSeed && askConfirmation('→ Do you want to insert sample data (seed)?'))) {
-        importSqlFile($pdo, __DIR__ . '/database/seed.sql');
+        importSqlFile($pdo, __DIR__ . '/../src/database/mysql/seed.sql');
     }
 
     echo PHP_EOL . "Done !" . PHP_EOL;

@@ -1,19 +1,29 @@
 <?php
 
-use App\Model\Mongo\ReviewModel;
+declare(strict_types=1);
+
 use App\Model\Mysql\BookModel;
+use App\Model\Mongo\ReviewModel;
+use Dotenv\Dotenv;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+
 session_start();
 
-require_once __DIR__ . '/../config/env_loader.php';
+// Connexions aux bases de données
+require_once __DIR__ . '/../src/Config/db_mysql.php';
+require_once __DIR__ . '/../src/Config/db_mongo.php';
 
-$pdo = require_once __DIR__ . '/../config/db_mysql.php';
-$mongoDb = require_once __DIR__ . '/../config/db_mongo.php';
+$pdo = getDbConnection();
+$mongoDb = getMongoDatabase();
 
 $bookModel = new BookModel($pdo);
 $reviewModel = new ReviewModel($mongoDb);
 
 $method = $_SERVER['REQUEST_METHOD'];
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+echo "App started!";
