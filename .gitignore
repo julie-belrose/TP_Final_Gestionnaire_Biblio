@@ -1,0 +1,22 @@
+#IDE
+.vscode/
+.idea/*
+*.swp
+*.swo
+
+#temporary file / cache
+*.log
+*.tmp
+*.bak
+*.DS_Store
+Thumbs.db
+
+#Dependances
+vendor/
+node_modules/
+
+#env
+.env
+
+#PHP
+composer.lock
