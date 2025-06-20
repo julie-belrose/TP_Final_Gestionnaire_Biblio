@@ -18,10 +18,10 @@ require_once __DIR__ . '/../src/Config/db_mysql.php';
 require_once __DIR__ . '/../src/Config/db_mongo.php';
 
 $pdo = getDbConnection();
-$mongoDb = getMongoDatabase();
+//$mongoDb = getMongoDatabase();
 
 $bookModel = new BookModel($pdo);
-$reviewModel = new ReviewModel($mongoDb);
+//$reviewModel = new ReviewModel($mongoDb);
 
 $method = $_SERVER['REQUEST_METHOD'];
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);

@@ -22,11 +22,9 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Dotenv\Dotenv;
 
-// Charge les variables d'environnement
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
-// Connexion temporaire SANS base sélectionnée
 $dsn = sprintf('mysql:host=%s;charset=utf8mb4', $_ENV['DB_MYSQL_HOST'] ?? 'localhost');
 $options = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -40,20 +38,15 @@ $pdo = new PDO(
     $options
 );
 
-// Création de la base si elle n'existe pas
 $dbName = $_ENV['DB_MYSQL_NAME'] ?? 'personal_library';
 $pdo->exec("CREATE DATABASE IF NOT EXISTS `$dbName` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
 
-// Reconnexion avec la base
 $pdo = new PDO(
     sprintf('%s;dbname=%s', $dsn, $dbName),
     $_ENV['DB_MYSQL_USER'] ?? 'root',
     $_ENV['DB_MYSQL_PASSWORD'] ?? '',
     $options
 );
-
-
-//$pdo = getDbConnection();
 
 /**
  * Prompt the user interactively.
