@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Dto;
+namespace App\src\model\dto;
 
 class ReviewDTO
 {

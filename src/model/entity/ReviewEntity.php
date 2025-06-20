@@ -2,7 +2,7 @@
 
 namespace App\Model\Entity;
 
-class Review
+class ReviewEntity
 {
     
 }

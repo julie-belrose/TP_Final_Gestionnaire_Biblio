@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Entity;
+namespace App\src\model\entity;
 
-class Book
+class BookEntity
 {
     private ?int $id;
     private string $title;

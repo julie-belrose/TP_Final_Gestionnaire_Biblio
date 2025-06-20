@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Loads environment variables from a .env file into $_ENV, $_SERVER and system env.
  *
  * Usage:
- *   require_once 'config/env_loader.php';
+ *   require_once 'Config/env_loader.php';
  *   loadEnv(__DIR__ . '/../.env');
  */
 

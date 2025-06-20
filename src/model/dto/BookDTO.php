@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\DTO;
+namespace App\src\model\dto;
 
 class BookDTO
 {
@@ -15,7 +15,7 @@ class BookDTO
     ) {
     }
 
-    public static function fromEntity(\App\Model\Entity\Book $book): self
+    public static function fromEntity(\App\src\model\entity\BookEntity $book): self
     {
         return new self(
             $book->getId(),

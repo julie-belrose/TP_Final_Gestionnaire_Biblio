@@ -40,7 +40,7 @@ CREATE TABLE books (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Book-Category many-to-many relationship
+-- BookEntity-Category many-to-many relationship
 CREATE TABLE book_category (
     book_id INT NOT NULL,
     category_id INT NOT NULL,
